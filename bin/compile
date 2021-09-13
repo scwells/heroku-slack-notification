@@ -17,10 +17,9 @@ export_env_dir() {
 export_env_dir $3
 
 GITLAB_LINK="$GITLAB_BASE_URL/$HEROKU_SLUG_COMMIT"
-SLACK_MESSAGE="*$HEROKU_APP_NAME* was deployed\n>[$HEROKU_SLUG_DESCRIPTION]($GITLAB_LINK) @ $HEROKU_RELEASE_CREATED_AT"
 
 echo "-----> Notifying Slack that the deploy is complete"
 echo "       $SLACK_MESSAGE"
-curl -s -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_DEPLOYMENT_WEBHOOK_URL
+curl -s -X POST -H 'Content-type: application/json' --data "{\"text\":\"*$HEROKU_APP_NAME* was deployed\",\"attachments\":[{\"title\":\":gitlab: ${HEROKU_SLUG_COMMIT:0:8}\",\"title_link\":\"$GITLAB_LINK\"}]}" $SLACK_DEPLOYMENT_WEBHOOK_URL
 echo ""
 echo ""
